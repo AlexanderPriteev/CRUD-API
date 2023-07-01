@@ -14,28 +14,33 @@ const port = env.PORT || 4000;
 const users: User[] = [];
 
 const server = http.createServer((req: IncomingMessage, res: ServerResponse) => {
-    const { method, url } = req;
-    if(typeof url !== 'string'){
-        returnData(res, 'Invalid Data', 400);
-        return;
+    try {
+        const { method, url } = req;
+        if(typeof url !== 'string'){
+            returnData(res, 'Invalid Data', 400);
+            return;
+        }
+
+        switch (method) {
+            case 'GET':
+                methodGet(url, res, users);
+                break;
+            case 'POST':
+                methodPost(url, req, res, users);
+                break;
+            case 'PUT':
+                methodPut(url, req, res, users);
+                break;
+            case 'DELETE':
+                methodDelete(url, res, users);
+                break;
+            default:
+                returnData(res, 'Endpoint not found', 404);
+        }
+    } catch {
+        returnData(res, 'Server Error', 500);
     }
 
-    switch (method) {
-        case 'GET':
-            methodGet(url, res, users);
-            break;
-        case 'POST':
-            methodPost(url, req, res, users);
-            break;
-        case 'PUT':
-            methodPut(url, req, res, users);
-            break;
-        case 'DELETE':
-            methodDelete(url, res, users);
-            break;
-        default:
-            returnData(res, 'Endpoint not found', 404);
-    }
 });
 
 server.listen(port, () => {
