@@ -3,7 +3,7 @@ import User from "../modules/interfaces";
 import isValidUUID from "../modules/uuid-validater";
 import returnData from "../modules/return-data";
 
-export default function methodPut(url: string, req: IncomingMessage, res: ServerResponse, users: User[]) {
+export default async function methodPut(url: string, req: IncomingMessage, res: ServerResponse, users: User[]) {
     const userId = url.split('/').pop()!;
     const isValid = /\/api\/users\/([^/]+)/.test(url)
     if (!isValid || !isValidUUID(userId)) {
@@ -12,11 +12,18 @@ export default function methodPut(url: string, req: IncomingMessage, res: Server
     }
 
     let requestBody = '';
-    req.on('data', (chunk) => {
-        requestBody += chunk.toString();
+
+    await new Promise<void>((resolve) => {
+        req.on('data', (chunk) => {
+            requestBody += chunk.toString();
+        });
+
+        req.on('end', () => {
+            resolve();
+        });
     });
 
-    req.on('end', () => {
+
         const {username, age, hobbies} = JSON.parse(requestBody);
         const userIndex = users.findIndex((u) => u.id === userId);
 
@@ -32,5 +39,5 @@ export default function methodPut(url: string, req: IncomingMessage, res: Server
             users[userIndex] = updatedUser;
             returnData(res, updatedUser, 200);
         }
-    });
+
 }

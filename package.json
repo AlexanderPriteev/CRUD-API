@@ -8,9 +8,10 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "nodemon --exec ts-node-dev src/main.ts",
+    "start": "nodemon --exec ts-node-dev src/index.ts",
     "start:dev": "npm run start",
-    "start:prod": "npm run build && node dist/main.js",
+    "start:prod": "npm run build && node dist/index.js",
+    "start:multi": "nodemon --exec ts-node-dev src/balancer.ts",
     "build": "tsc",
 
     "format": "prettier --write \"src/**/*.ts\"",
