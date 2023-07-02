@@ -25,27 +25,6 @@ export default async function methodPost(
     });
   });
 
-  // req.on('data', (chunk) => {
-  //     requestBody += chunk.toString();
-  // });
-  //
-  // req.on('end', () => {
-  //     const {username, age, hobbies} = JSON.parse(requestBody);
-  //
-  //     if (!username || !age) {
-  //         returnData(res, 'Missing required fields', 400);
-  //     } else {
-  //         const newUser: User = {
-  //             id: uuidv4(),
-  //             username,
-  //             age,
-  //             hobbies: hobbies || [],
-  //         };
-  //         users.push(newUser);
-  //         returnData(res, newUser, 201);
-  //     }
-  // });
-
   const { username, age, hobbies } = JSON.parse(requestBody);
 
   if (!username || !age) {

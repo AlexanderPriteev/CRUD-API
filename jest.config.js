@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['/node_modules/'],
-  testMatch: ['**/?(*.)+(test).ts'],
+  testMatch: ['**/tests/**/*.test.ts'],
   moduleFileExtensions: ['ts', 'js', 'json'],
   restoreMocks: true,
   resetMocks: true,
